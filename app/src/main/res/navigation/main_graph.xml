@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/taskListFragment">
+
+    <fragment
+        android:id="@+id/taskListFragment"
+        android:name="com.itis.taskmanager.TaskListFragment"
+        android:label="fragment_task_list"
+        tools:layout="@layout/fragment_task_list" >
+        <action
+            android:id="@+id/action_taskListFragment_to_taskExplorerFragment"
+            app:destination="@id/taskExplorerFragment" />
+        <action
+            android:id="@+id/action_taskListFragment_to_createOrEditTaskFragment"
+            app:destination="@id/createOrEditTaskFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/taskExplorerFragment"
+        android:name="com.itis.taskmanager.TaskExplorerFragment"
+        android:label="fragment_task_explorer"
+        tools:layout="@layout/fragment_task_explorer" >
+        <action
+            android:id="@+id/action_taskExplorerFragment_to_createOrEditTaskFragment"
+            app:destination="@id/createOrEditTaskFragment" />
+        <action
+            android:id="@+id/action_taskExplorerFragment_to_taskListFragment"
+            app:destination="@id/taskListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createOrEditTaskFragment"
+        android:name="com.itis.taskmanager.CreateOrEditTaskFragment"
+        android:label="fragment_create_or_edit_task"
+        tools:layout="@layout/fragment_create_or_edit_task" >
+        <action
+            android:id="@+id/action_createOrEditTaskFragment_to_taskExplorerFragment"
+            app:destination="@id/taskExplorerFragment" />
+        <action
+            android:id="@+id/action_createOrEditTaskFragment_to_taskListFragment"
+            app:destination="@id/taskListFragment" />
+    </fragment>
+</navigation>
