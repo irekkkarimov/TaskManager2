@@ -7,15 +7,104 @@
     android:layout_height="match_parent"
     tools:context=".TaskExplorerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/hello_blank_fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.appcompat.widget.ActionMenuView
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@color/actionBarColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:layout_width="318dp"
+        android:layout_height="52dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/inter_regular"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:text="Task Manager"
+        app:layout_constraintStart_toStartOf="@id/action_bar"
+        app:layout_constraintTop_toTopOf="@id/action_bar"/>
+
+    <ImageButton
+        android:id="@+id/editButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/edit_mark"
+        app:layout_constraintEnd_toEndOf="@id/action_bar"
+        app:layout_constraintTop_toTopOf="@id/action_bar"/>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="36sp"
+        android:fontFamily="@font/inter_bold"
+        app:layout_constraintTop_toBottomOf="@id/action_bar"
+        app:layout_constraintStart_toStartOf="@id/action_bar"
+        tools:text="Task Name"/>
+
+    <TextView
+        android:id="@+id/tvDescriptionHeading"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="24sp"
+        android:fontFamily="@font/inter_semibold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        android:text="Description:"/>
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="24sp"
+        android:fontFamily="@font/inter_regular"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDescriptionHeading"
+        tools:text="______________________________________________________________
+        __________________________________________________________________________
+        __________________________________________________________________________
+        __________________________________________________________________________
+        __________________________________________________________________________
+        ____________________________________________________________________"/>
+    
+    <TextView
+        android:id="@+id/tvDeadlineHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="36sp"
+        android:fontFamily="@font/inter_regular"
+        android:textColor="@color/deadline"
+        android:text="Deadline: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tvDeadline"/>
+
+    <TextView
+        android:id="@+id/tvDeadline"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:fontFamily="@font/inter_light"
+        android:textColor="@color/deadline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="_date_"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

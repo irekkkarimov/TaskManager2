@@ -9,7 +9,7 @@ class ContainerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_container)
         var jsonHandler = HandlerJSON()
-        jsonHandler.test()
+//        jsonHandler.test()
 
         var controller =
             (supportFragmentManager.findFragmentById(R.id.container)

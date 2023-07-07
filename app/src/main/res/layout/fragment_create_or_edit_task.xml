@@ -2,20 +2,201 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
+    android:id="@+id/createOrEditTaskFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreateOrEditTaskFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/hello_blank_fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.appcompat.widget.ActionMenuView
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@color/actionBarColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:layout_width="318dp"
+        android:layout_height="52dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/inter_regular"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:text="Task Manager"
+        app:layout_constraintStart_toStartOf="@id/action_bar"
+        app:layout_constraintTop_toTopOf="@id/action_bar"/>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@drawable/baseline_check_24"
+        app:layout_constraintTop_toTopOf="@id/action_bar"
+        app:layout_constraintEnd_toEndOf="@id/action_bar"
+        app:layout_constraintBottom_toBottomOf="@id/action_bar"/>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="36sp"
+        android:fontFamily="@font/inter_bold"
+        android:text="Task Name"
+        app:layout_constraintTop_toBottomOf="@id/action_bar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/etNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:paddingLeft="15dp"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/inter_regular"
+        android:hint="Name"
+        android:background="@drawable/input_background"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </EditText>
+
+    <TextView
+        android:id="@+id/tvDescriptionHeading"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="36sp"
+        android:fontFamily="@font/inter_bold"
+        android:text="Description:"
+        app:layout_constraintTop_toBottomOf="@id/etNameInput"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/etDescriptionInput"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:paddingLeft="15dp"
+        android:textSize="30sp"
+        android:fontFamily="@font/inter_regular"
+        android:textColor="@color/black"
+        android:gravity="top"
+        android:hint="Description"
+        android:background="@drawable/input_background"
+        app:layout_constraintTop_toBottomOf="@id/tvDescriptionHeading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </EditText>
+
+    <TextView
+        android:id="@+id/tvDeadlineHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="36sp"
+        android:fontFamily="@font/inter_bold"
+        android:text="Deadline:"
+        app:layout_constraintTop_toBottomOf="@id/etDescriptionInput"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/etDay"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="12dp"
+        android:textSize="24sp"
+        android:fontFamily="@font/inter_regular"
+        android:hint="D"
+        android:maxLength="2"
+        android:inputType="number"
+        android:background="@drawable/input_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDeadlineHeading"
+        tools:text="10"/>
+
+    <EditText
+        android:id="@+id/etMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="12dp"
+        android:textSize="24sp"
+        android:fontFamily="@font/inter_regular"
+        android:hint="M"
+        android:maxLength="2"
+        android:inputType="number"
+        android:background="@drawable/input_background"
+        app:layout_constraintStart_toEndOf="@id/etDay"
+        app:layout_constraintTop_toBottomOf="@id/tvDeadlineHeading"
+        tools:text="07"/>
+
+    <EditText
+        android:id="@+id/etYear"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="12dp"
+        android:textSize="24sp"
+        android:fontFamily="@font/inter_regular"
+        android:hint="Year"
+        android:maxLength="4"
+        android:inputType="number"
+        android:background="@drawable/input_background"
+        app:layout_constraintStart_toEndOf="@id/etMonth"
+        app:layout_constraintTop_toBottomOf="@id/tvDeadlineHeading"
+        tools:text="2023"/>
+
+    <EditText
+        android:id="@+id/etTime1"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:paddingHorizontal="12dp"
+        android:textSize="24sp"
+        android:fontFamily="@font/inter_regular"
+        android:hint="H"
+        android:maxLength="2"
+        android:inputType="number"
+        android:background="@drawable/input_background_time1"
+        app:layout_constraintEnd_toStartOf="@id/etTime2"
+        app:layout_constraintTop_toBottomOf="@id/tvDeadlineHeading"
+        tools:text="18"/>
+
+    <EditText
+        android:id="@+id/etTime2"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="12dp"
+        android:textSize="24sp"
+        android:fontFamily="@font/inter_regular"
+        android:hint="M"
+        android:maxLength="2"
+        android:inputType="number"
+        android:background="@drawable/input_background_time2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDeadlineHeading"
+        tools:text="00"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/inter_regular"
+        android:text=":"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@id/etTime1"
+        app:layout_constraintEnd_toStartOf="@id/etTime2"
+        app:layout_constraintTop_toBottomOf="@id/tvDeadlineHeading"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

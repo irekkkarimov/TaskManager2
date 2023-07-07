@@ -15,6 +15,7 @@ class TaskItem(
         binding.run {
             tvName.text = task.name
             tvShortDesc.text = task.short_desc
+            tvDeadline.text = task.deadline.toLocalDate().toString() + " " + task.deadline.toLocalTime().toString()
 
             root.setOnClickListener {
                 onItemClick(task)
