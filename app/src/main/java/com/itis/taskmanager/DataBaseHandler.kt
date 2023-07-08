@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
 import java.time.LocalDateTime
+import java.util.EnumSet.range
 
 val DATABASE_NAME = "MyDB"
 val TABLE_NAME = "Tasks"
@@ -19,6 +20,7 @@ val COL_DESC = "desc"
 val COL_DEADLINE = "deadline"
 
 class DataBaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+    var counter = 0
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable = "CREATE TABLE " + TABLE_NAME + "(" +
                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -38,6 +40,10 @@ class DataBaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
 
     fun insertData(task: Task) {
         val db = this.writableDatabase
+
+        db.execSQL("DELETE FROM " + TABLE_NAME + ';')
+        db.execSQL("VACUUM;")
+
         val dl = task.deadline
         var deadlinetext = dl.year.toString() + "_" +
                 dl.month.value.toString() + "_" +
@@ -51,15 +57,16 @@ class DataBaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         cv.put(COL_DESC, task.desc)
         cv.put(COL_DEADLINE, deadlinetext)
 
-        var result = db.insert(TABLE_NAME, null, cv)
+        db.insert(TABLE_NAME, null, cv)
     }
 
-    fun readData() : Unit {
+    fun readData() {
         val db = this.readableDatabase
         val query = "SELECT * FROM " + TABLE_NAME
         val result = db.rawQuery(query, null)
         if (result.moveToFirst()) {
             do {
+                counter++
                 var id = result.getString(0).toInt()
                 var name = result.getString(1)
                 var short_desc = result.getString(2)
