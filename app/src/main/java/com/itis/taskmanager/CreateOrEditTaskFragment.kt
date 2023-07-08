@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.itis.taskmanager.databinding.FragmentCreateOrEditTaskBinding
 import java.time.LocalDateTime
 
@@ -47,10 +48,23 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
                 (etTime2 as TextView).text = minutesFiller(minutes)
             }
             submitButton.setOnClickListener {
-                if (etTime1.text.length == 0)
-                    etTime1.setText("00")
-                if (etTime2.text.length == 0)
-                    etTime2.setText("00")
+                var time1 = 0
+                var time2 = 0
+                if (!etTime1.text.isEmpty())
+                {
+                    time1 = etTime1.text.toString().toInt()
+                    if (etTime1.text.toString().toInt() < 0) {
+                        etTime1.setText("")
+                        etTime1.setHint("!!")
+                    }
+                }
+                if (!etTime2.text.isEmpty()) {
+                    time2 = etTime2.text.toString().toInt()
+                    if (etTime2.text.toString().toInt() < 0) {
+                        etTime2.setText("")
+                        etTime2.setHint("!!")
+                    }
+                }
                 if (etNameInput.text == null || etNameInput.text.length == 0)
                     etNameInput.setHint("Wrong Input")
                 if (etDescriptionInput.text == null || etDescriptionInput.text.length == 0)
@@ -67,31 +81,28 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
                     etYear.setText("")
                     etYear.setHint("!!!!")
                 }
-                if (etTime1.text == null || etTime1.text.toString().toInt() <= 0) {
-                    etTime1.setText("")
-                    etTime1.setHint("!!")
-                }
-                if (etTime2.text == null || etTime2.text.toString().toInt() <= 0) {
-                    etTime2.setText("")
-                    etTime2.setHint("!!")
-                }
 
                 if (inputsChecker()) {
-                    TaskRepository.list.add(
-                        Task(
-                            TaskRepository.list.size,
-                            etNameInput.text.toString(),
-                            getShortDesc(etDescriptionInput.text.toString()),
-                            etDescriptionInput.text.toString(),
-                            LocalDateTime.of(
-                                etYear.text.toString().toInt(),
-                                etMonth.text.toString().toInt(),
-                                etDay.text.toString().toInt(),
-                                etTime1.text.toString().toInt(),
-                                etTime2.text.toString().toInt()
+                    var date = LocalDateTime.of(
+                        etYear.text.toString().toInt(),
+                        etMonth.text.toString().toInt(),
+                        etDay.text.toString().toInt(),
+                        time1,
+                        time2
+                    )
+
+                    if (date < LocalDateTime.now())
+                        Snackbar.make(binding!!.root,"Date is earlier than now" , Snackbar.LENGTH_LONG).show()
+                    else
+                        TaskRepository.list.add(
+                            Task(
+                                TaskRepository.list.size,
+                                etNameInput.text.toString(),
+                                getShortDesc(etDescriptionInput.text.toString()),
+                                etDescriptionInput.text.toString(),
+                                date
                             )
                         )
-                    )
                     findNavController().navigate(R.id.action_createOrEditTaskFragment_to_taskListFragment)
                 }
             }
@@ -129,9 +140,11 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
                 return false
             if (etYear.text.isEmpty() || etYear.text.toString().toInt() <= 0)
                 return false
-            if (etTime1.text == null || etTime1.text.toString().toInt() <= 0)
+            if (etTime1.text.isEmpty()) {}
+            else if (etTime1.text.toString().toInt() < 0)
                 return false
-            if (etTime2.text == null || etTime2.text.isEmpty() || etTime2.text.toString().toInt() <= 0)
+            if (etTime2.text.isEmpty()) {}
+            else if (etTime2.text.toString().toInt() < 0)
                 return false
             return true
         }

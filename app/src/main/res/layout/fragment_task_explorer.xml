@@ -38,6 +38,16 @@
         app:layout_constraintEnd_toEndOf="@id/action_bar"
         app:layout_constraintTop_toTopOf="@id/action_bar"/>
 
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/baseline_delete_24"
+        app:layout_constraintEnd_toStartOf="@id/editButton"
+        app:layout_constraintTop_toTopOf="@id/action_bar"/>
+
     <TextView
         android:id="@+id/tvName"
         android:layout_width="match_parent"

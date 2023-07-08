@@ -10,11 +10,5 @@ import java.util.Date
 object TaskRepository {
 
     var list: MutableList<Task> = mutableListOf(
-        Task(1, "test", "short_description", "long description", LocalDateTime.of(2023, 7, 8, 18, 0)),
-        Task(2, "test", "short_description", "long description", LocalDateTime.of(2023, 7, 8, 18, 0)),
-        Task(3, "test", "short_description", "long description", LocalDateTime.of(2023, 7, 8, 18, 0)),
-        Task(4, "test", "short_description", "long description", LocalDateTime.of(2023, 7, 8, 18, 0)),
-        Task(5, "test", "short_description", "long description", LocalDateTime.of(2023, 7, 8, 18, 0)),
-        Task(6, "test", "short_description", "long description", LocalDateTime.of(2023, 7, 8, 18, 0))
     )
 }

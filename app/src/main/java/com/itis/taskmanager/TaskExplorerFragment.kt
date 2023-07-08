@@ -25,9 +25,9 @@ class TaskExplorerFragment : Fragment(R.layout.fragment_task_explorer) {
             if (arguments?.getBoolean("ADDING") == false) {
                 id = arguments?.getInt("ID").toString().toInt()
                 val taskList = TaskRepository.list
-                val currentTask = taskList[id - 1]
+                val currentTask = taskList.find { task -> task.id == id }
 
-                name = currentTask.name
+                name = currentTask!!.name
                 description = currentTask.desc
                 deadline = currentTask.deadline
 
@@ -43,6 +43,11 @@ class TaskExplorerFragment : Fragment(R.layout.fragment_task_explorer) {
 
                 findNavController().navigate(R.id.action_taskExplorerFragment_to_createOrEditTaskFragment,
                 bundle)
+            }
+
+            deleteButton.setOnClickListener {
+                findNavController().navigate(R.id.action_taskExplorerFragment_to_taskListFragment)
+                TaskRepository.list.remove(TaskRepository.list.find { it.id == id })
             }
         }
 
