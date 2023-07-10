@@ -17,6 +17,8 @@ class ContainerActivity : AppCompatActivity() {
         db = DataBaseHandler(this)
         db.readData()
 
+        TaskRepository.list.sortBy { task -> task.deadline }
+
         var controller =
             (supportFragmentManager.findFragmentById(R.id.container)
                     as NavHostFragment).navController
@@ -25,6 +27,5 @@ class ContainerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        TaskRepository.list.forEach { task -> db.insertData(task) }
     }
 }

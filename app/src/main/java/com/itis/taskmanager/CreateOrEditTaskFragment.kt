@@ -20,16 +20,16 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var db = DataBaseHandler(requireContext())
 
         binding = FragmentCreateOrEditTaskBinding.bind(view)
 
         binding?.run {
             if (arguments?.getBoolean("ADDING") == false) {
                 val id = arguments?.getInt("ID").toString().toInt()
-                val taskList = TaskRepository.list
-                val currentTask = taskList[id - 1]
+                val currentTask = TaskRepository.list.find { task -> task.id == id }
 
-                val name = currentTask.name
+                val name = currentTask!!.name
                 val description = currentTask.desc
                 val deadline = currentTask.deadline
 
@@ -93,16 +93,33 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
 
                     if (date < LocalDateTime.now())
                         Snackbar.make(binding!!.root,"Date is earlier than now" , Snackbar.LENGTH_LONG).show()
-                    else
-                        TaskRepository.list.add(
-                            Task(
-                                TaskRepository.list.size,
-                                etNameInput.text.toString(),
-                                getShortDesc(etDescriptionInput.text.toString()),
-                                etDescriptionInput.text.toString(),
-                                date
-                            )
+                    else {
+                        var newId = findNewIndex()
+                        if (arguments?.getBoolean("ADDING") == false)
+                            newId = id
+                        var newTask = Task(
+                            newId,
+                            etNameInput.text.toString(),
+                            getShortDesc(etDescriptionInput.text.toString()),
+                            etDescriptionInput.text.toString(),
+                            date
                         )
+
+                        if (arguments?.getBoolean("ADDING") == false) {
+                            val id = arguments?.getInt("ID").toString().toInt()
+                            val currentTask = TaskRepository.list.find { task -> task.id == id }
+                            if (currentTask != null)
+                                db.editData(newTask)
+
+                            for (i in 0 until TaskRepository.list.size) {
+                                if (TaskRepository.list[i].id == id)
+                                    TaskRepository.list[i] = newTask
+                            }
+                        } else {
+                            db.insertData(newTask)
+                            TaskRepository.list.add(newTask)
+                        }
+                    }
                     findNavController().navigate(R.id.action_createOrEditTaskFragment_to_taskListFragment)
                 }
             }
@@ -150,5 +167,18 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
         }
 
         return false
+    }
+
+    fun findNewIndex(): Int {
+        var indexes = mutableListOf<Int>()
+        TaskRepository.list.forEach { task ->
+                indexes.add(task.id)
+        }
+
+        var max = 0
+        if (!indexes.isEmpty())
+            max = indexes.max()
+
+        return max + 1
     }
 }

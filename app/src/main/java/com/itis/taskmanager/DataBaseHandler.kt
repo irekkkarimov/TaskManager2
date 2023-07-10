@@ -23,7 +23,7 @@ class DataBaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     var counter = 0
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable = "CREATE TABLE " + TABLE_NAME + "(" +
-                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COL_ID + " INTEGER PRIMARY KEY," +
                 COL_NAME + " VARCHAR(256)," +
                 COL_SHORT_DESC + " VARCHAR(256)," +
                 COL_DESC + " VARCHAR(256)," +
@@ -41,9 +41,6 @@ class DataBaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     fun insertData(task: Task) {
         val db = this.writableDatabase
 
-        db.execSQL("DELETE FROM " + TABLE_NAME + ';')
-        db.execSQL("VACUUM;")
-
         val dl = task.deadline
         var deadlinetext = dl.year.toString() + "_" +
                 dl.month.value.toString() + "_" +
@@ -52,6 +49,7 @@ class DataBaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
                 dl.minute.toString()
 
         var cv = ContentValues()
+        cv.put(COL_ID, task.id)
         cv.put(COL_NAME, task.name)
         cv.put(COL_SHORT_DESC, task.short_desc)
         cv.put(COL_DESC, task.desc)
@@ -79,5 +77,26 @@ class DataBaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
                 TaskRepository.list.add(task)
             } while (result.moveToNext())
         }
+    }
+
+    fun deleteData(id: Int) {
+        val query = "DELETE FROM " + TABLE_NAME + " WHERE " + COL_ID + " = " + id + ";"
+        var db = this.writableDatabase
+
+        db.execSQL(query)
+    }
+
+    fun editData(task: Task) {
+        val deleteQuery = "DELETE FROM " + TABLE_NAME + " WHERE " + COL_ID + " = " + task.id + ";"
+        var db = this.writableDatabase
+        db.execSQL(deleteQuery)
+        insertData(task)
+
+    }
+
+    fun clearTable() {
+        var db = this.writableDatabase
+        db.execSQL("DELETE FROM " + TABLE_NAME + ';')
+        db.execSQL("VACUUM;")
     }
 }

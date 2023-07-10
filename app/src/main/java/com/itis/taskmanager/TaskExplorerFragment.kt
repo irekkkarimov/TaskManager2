@@ -1,5 +1,6 @@
 package com.itis.taskmanager
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,6 +35,8 @@ class TaskExplorerFragment : Fragment(R.layout.fragment_task_explorer) {
                 tvName.text = name
                 tvDescription.text = description
                 tvDeadline.text = deadline.toLocalDate().toString() + "  " + deadline.toLocalTime().toString()
+                if (deadline <= LocalDateTime.now())
+                    tvDeadline.setTextColor(Color.RED)
             }
 
             editButton.setOnClickListener {
@@ -48,6 +51,8 @@ class TaskExplorerFragment : Fragment(R.layout.fragment_task_explorer) {
             deleteButton.setOnClickListener {
                 findNavController().navigate(R.id.action_taskExplorerFragment_to_taskListFragment)
                 TaskRepository.list.remove(TaskRepository.list.find { it.id == id })
+                var db = DataBaseHandler(requireContext())
+                db.deleteData(id)
             }
         }
 
