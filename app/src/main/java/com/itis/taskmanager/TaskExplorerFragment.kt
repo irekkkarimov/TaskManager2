@@ -35,8 +35,6 @@ class TaskExplorerFragment : Fragment(R.layout.fragment_task_explorer) {
                 tvName.text = name
                 tvDescription.text = description
                 tvDeadline.text = deadline.toLocalDate().toString() + "  " + deadline.toLocalTime().toString()
-                if (deadline <= LocalDateTime.now())
-                    tvDeadline.setTextColor(Color.RED)
             }
 
             editButton.setOnClickListener {

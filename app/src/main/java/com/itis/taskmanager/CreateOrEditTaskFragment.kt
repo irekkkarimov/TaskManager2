@@ -119,8 +119,8 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
                             db.insertData(newTask)
                             TaskRepository.list.add(newTask)
                         }
+                        findNavController().navigate(R.id.action_createOrEditTaskFragment_to_taskListFragment)
                     }
-                    findNavController().navigate(R.id.action_createOrEditTaskFragment_to_taskListFragment)
                 }
             }
         }
