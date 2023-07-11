@@ -53,14 +53,14 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
                 if (!etTime1.text.isEmpty())
                 {
                     time1 = etTime1.text.toString().toInt()
-                    if (etTime1.text.toString().toInt() < 0) {
+                    if (etTime1.text.toString().toInt() < 0 || etTime1.text.toString().toInt() > 23) {
                         etTime1.setText("")
                         etTime1.setHint("!!")
                     }
                 }
                 if (!etTime2.text.isEmpty()) {
                     time2 = etTime2.text.toString().toInt()
-                    if (etTime2.text.toString().toInt() < 0) {
+                    if (etTime2.text.toString().toInt() < 0 || etTime2.text.toString().toInt() > 59) {
                         etTime2.setText("")
                         etTime2.setHint("!!")
                     }
@@ -69,17 +69,17 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
                     etNameInput.setHint("Wrong Input")
                 if (etDescriptionInput.text == null || etDescriptionInput.text.length == 0)
                     etDescriptionInput.setHint("Wrong Input")
-                if (etDay.text == null || etDay.text.length == 0 || etDay.text.toString().toInt() <= 0) {
-                    etDay.setText("")
-                    etDay.setHint("!!")
-                }
-                if (etMonth.text == null || etMonth.text.length == 0 || etMonth.text.toString().toInt() <= 0) {
-                    etMonth.setText("")
-                    etMonth.setHint("!!")
-                }
                 if (etYear.text == null || etYear.text.length == 0 || etYear.text.toString().toInt() <= 0) {
                     etYear.setText("")
                     etYear.setHint("!!!!")
+                }
+                else if (etMonth.text == null || etMonth.text.length == 0 || etMonth.text.toString().toInt() <= 0 || etMonth.text.toString().toInt() > 12) {
+                    etMonth.setText("")
+                    etMonth.setHint("!!")
+                }
+                else if (etDay.text == null || etDay.text.length == 0 || etDay.text.toString().toInt() <= 0 || etDay.text.toString().toInt() > dayOfMonthChecker(etMonth.text.toString().toInt(), etYear.text.toString().toInt())) {
+                    etDay.setText("")
+                    etDay.setHint("!!")
                 }
 
                 if (inputsChecker()) {
@@ -96,7 +96,7 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
                     else {
                         var newId = findNewIndex()
                         if (arguments?.getBoolean("ADDING") == false)
-                            newId = id
+                            newId = arguments?.getInt("ID").toString().toInt()
                         var newTask = Task(
                             newId,
                             etNameInput.text.toString(),
@@ -113,12 +113,12 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
 
                             for (i in 0 until TaskRepository.list.size) {
                                 if (TaskRepository.list[i].id == id)
-                                    TaskRepository.list[i] = newTask
+                                    TaskRepository.list.removeAt(i)
                             }
                         } else {
                             db.insertData(newTask)
-                            TaskRepository.list.add(newTask)
                         }
+                        TaskRepository.list.add(findPositionForNewTask(newTask.deadline), newTask)
                         findNavController().navigate(R.id.action_createOrEditTaskFragment_to_taskListFragment)
                     }
                 }
@@ -127,8 +127,8 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
     }
 
     private fun getShortDesc(desc: String): String {
-        if (desc.length > 20)
-            return desc.substring(0, 20)
+        if (desc.length > 22)
+            return desc.substring(0, 18) + "..."
         else
             return desc
     }
@@ -180,5 +180,37 @@ class CreateOrEditTaskFragment : Fragment(R.layout.fragment_create_or_edit_task)
             max = indexes.max()
 
         return max + 1
+    }
+
+    fun dayOfMonthChecker(month: Int, year: Int): Int {
+        if (month == 2 && (year % 4 == 0))
+            return 29
+        return when (month) {
+            1 -> 31
+            2 -> 28
+            3 -> 31
+            4 -> 30
+            5 -> 31
+            6 -> 30
+            7 -> 31
+            8 -> 31
+            9 -> 30
+            10 -> 31
+            11 -> 30
+            12 -> 31
+            else -> 30
+        }
+    }
+
+    fun findPositionForNewTask(deadline: LocalDateTime): Int {
+        var list = TaskRepository.list
+        var result = list.size
+        for (i in 0 until list.size) {
+            if (list[i].deadline > deadline) {
+                result = i
+                break
+            }
+        }
+        return result
     }
 }
